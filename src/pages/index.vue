@@ -95,9 +95,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas ref="el" width="600" height="600"/>
+  <canvas ref="el" width="600" height="600" m="t-5 auto" border />
 </template>
-
-<style scoped>
-
-</style>
