@@ -1,38 +1,107 @@
 <script lang="ts" setup>
-let heads = $ref<any>()
-let eyebrows = $ref<any>()
-let eyes = $ref<any>()
-let mouths = $ref<any>()
-let details = $ref<any>()
+interface Emoji<T> {
+  heads: T
+  eyebrows: T
+  eyes: T
+  mouths: T
+  details: T
+}
 
-const Head = ref()
-const EYEBROW = ref()
-const EYE = ref()
-const MOUTH = ref()
-const DETAIL = ref()
+// 定义emoji
+const emoji: Emoji<Array<string>> = reactive({
+  heads: [],
+  eyebrows: [],
+  eyes: [],
+  mouths: [],
+  details: [],
+})
 
+// 定义选择的emoji
+const SelectEmoji: Emoji<string> = reactive({
+  heads: '',
+  eyebrows: '',
+  eyes: '',
+  mouths: '',
+  details: '',
+})
+
+type SvgImageModule = typeof import('*.svg') // 导入svg模块的类型
+type ImportModuleFunction = () => Promise<SvgImageModule> // 返回Promise resolve状态时的值
+
+const el = $ref<HTMLCanvasElement>()
+const ctx = $computed(() => el.getContext('2d')!)
+const WIDTH = 600
+const HEIGHT = 600
+
+// 得到图片的路径
+async function loadImageArray(params: Record<string, ImportModuleFunction>) {
+  const items = Object.values(params).map(item => item())
+  const modules = await Promise.all(items)
+  return modules.map(module => module.default)
+}
+
+// 根据路径获得图片
 async function getImages() {
   // head
-  const modulesHeads = import.meta.glob('../assets/emoji/heads/*.svg')
-  const headkeys = Object.values(modulesHeads).map(item => item())
-  heads = await Promise.all(headkeys)
+  const modulesHeads = import.meta.glob<SvgImageModule>('../assets/emoji/heads/*.svg') // 得到svg类型的文件
+  const Heads = await loadImageArray(modulesHeads) // 根据文件得到路径
+  emoji.heads = Heads // 将路径放到数组中
   // eyebrows
-  const modulesEyebrows = import.meta.glob('../assets/emoji/eyebrows/*.svg')
-  const eyebrowskeys = Object.values(modulesEyebrows).map(item => item())
-  eyebrows = await Promise.all(eyebrowskeys)
+  const modulesEyebrows = import.meta.glob<SvgImageModule>('../assets/emoji/eyebrows/*.svg')
+  const Eyebrows = await loadImageArray(modulesEyebrows)
+  emoji.eyebrows = ['', ...Eyebrows]
   // eyes
-  const modulesEyes = import.meta.glob('../assets/emoji/eyes/*.svg')
-  const eyekeys = Object.values(modulesEyes).map(item => item())
-  eyes = await Promise.all(eyekeys)
+  const modulesEyes = import.meta.glob<SvgImageModule>('../assets/emoji/eyes/*.svg')
+  const Eyes = await loadImageArray(modulesEyes)
+  emoji.eyes = ['', ...Eyes]
   // mouths
-  const modulesMouths = import.meta.glob('../assets/emoji/mouths/*.svg')
-  const mouthkeys = Object.values(modulesMouths).map(item => item())
-  mouths = await Promise.all(mouthkeys)
+  const modulesMouths = import.meta.glob<SvgImageModule>('../assets/emoji/mouths/*.svg')
+  const Mouths = await loadImageArray(modulesMouths)
+  emoji.mouths = ['', ...Mouths]
   // details
-  const modulesDetails = import.meta.glob('../assets/emoji/details/*.svg')
-  const detailkeys = Object.values(modulesDetails).map(item => item())
-  details = await Promise.all(detailkeys)
+  const modulesDetails = import.meta.glob<SvgImageModule>('../assets/emoji/details/*.svg')
+  const Details = await loadImageArray(modulesDetails)
+  emoji.details = ['', ...Details]
 }
+
+// 生成图片标签
+function generateImages(path: string) {
+  return new Promise<HTMLImageElement | null>((resolve) => {
+    if (path === '')
+      resolve(null)
+    const img = new Image(400, 400)
+    img.src = path
+    img.onload = (e) => {
+      resolve(img)
+    }
+  })
+}
+
+watch(SelectEmoji, () => {
+  const headPath = SelectEmoji.heads
+  const eyesPath = SelectEmoji.eyes
+  const eyebrowsPath = SelectEmoji.eyebrows
+  const mouthPath = SelectEmoji.mouths
+  const detailPath = SelectEmoji.details
+  Promise.all([
+    generateImages(headPath),
+    generateImages(eyesPath),
+    generateImages(eyebrowsPath),
+    generateImages(mouthPath),
+    generateImages(detailPath),
+  ]).then((images) => {
+    ctx.clearRect(0, 0, el.width, el.height)
+    images.forEach((img) => {
+      img && ctx.drawImage(img, 0, 0, WIDTH, HEIGHT)
+    })
+    el.classList.add('animation')
+    setTimeout(() => {
+      el.classList.remove('animation')
+    }, 500)
+  })
+},
+
+)
 
 onMounted(() => {
   getImages()
@@ -40,74 +109,66 @@ onMounted(() => {
 </script>
 
 <template>
-  <div font-800 mb-2 style="font-size: 30px;">
-    Create Emoji you Like
+  <div>
+    <div font-800 mb-2 style="font-size: 30px;">
+      Create Emoji you Like
+    </div>
+    <div m-auto h-50 w-50 border="~ rounded-2" bg-gray-100 dark:bg-neutral-600>
+      <canvas ref="el" width="600" height="600" h-50 w-50 class="animation" />
+    </div>
   </div>
-  <div
-    m-auto
-    h-50
-    w-50
-    border
-    border-dark
-    border-rounded-2
-    bg-gray-100
-  >
-    <img v-if="Head" h-50 w-50 absolute :src="Head">
-    <img v-if="EYEBROW" h-50 w-50 absolute :src="EYEBROW">
-    <img v-if="EYE" h-50 w-50 absolute :src="EYE">
-    <img v-if="MOUTH" h-50 w-50 absolute :src="MOUTH">
-    <img v-if="DETAIL" h-50 w-50 absolute :src="DETAIL">
-  </div>
-  <div w-100 m-auto>
-    <h2 text-sm font-bold mt-3>
-      Head
-    </h2>
-    <div flex flex-wrap justify-center>
-      <template v-for="item in heads" :key="item.default">
-        <Section @click="Head = item.default">
-          <img :src="item.default">
-        </Section>
-      </template>
-    </div>
-    <h2 text-sm font-bold mt-3>
-      Eyebrows
-    </h2>
-    <div flex flex-wrap justify-center>
-      <template v-for="item in eyebrows" :key="item.default">
-        <Section @click="EYEBROW = item.default">
-          <img :src="item.default">
-        </Section>
-      </template>
-    </div>
-    <h2 text-sm font-bold mt-3>
-      Eyes
-    </h2>
-    <div flex flex-wrap justify-center>
-      <template v-for="item in eyes" :key="item.default">
-        <Section @click="EYE = item.default">
-          <img :src="item.default">
-        </Section>
-      </template>
-    </div>
-    <h2 text-sm font-bold mt-3>
-      Mouths
-    </h2>
-    <div flex flex-wrap justify-center>
-      <template v-for="item in mouths" :key="item.default">
-        <Section @click="MOUTH = item.default">
-          <img :src="item.default">
-        </Section>
-      </template>
-    </div>
-    <h2 text-sm font-bold mt-3>
-      Details
-    </h2>
-    <div flex flex-wrap justify-center>
-      <template v-for="item in details" :key="item.default">
-        <Section @click="DETAIL = item.default">
-          <img :src="item.default">
-        </Section>
-      </template>
+  <div>
+    <div w-100 m-auto>
+      <h2 text-sm font-bold mt-3>
+        Head
+      </h2>
+      <div flex flex-wrap justify-center>
+        <div v-for="(item, index) in emoji.heads" :key="index">
+          <Section @click="SelectEmoji.heads = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-sm font-bold mt-3>
+        Eyebrows
+      </h2>
+      <div flex flex-wrap justify-center>
+        <div v-for="(item, index) in emoji.eyebrows" :key="index">
+          <Section @click="SelectEmoji.eyebrows = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-sm font-bold mt-3>
+        Eyes
+      </h2>
+      <div flex flex-wrap justify-center>
+        <div v-for="(item, index) in emoji.eyes" :key="index">
+          <Section @click="SelectEmoji.eyes = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-sm font-bold mt-3>
+        Mouths
+      </h2>
+      <div flex flex-wrap justify-center>
+        <div v-for="(item, index) in emoji.mouths" :key="index">
+          <Section @click="SelectEmoji.mouths = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-sm font-bold mt-3>
+        Details
+      </h2>
+      <div flex flex-wrap justify-center>
+        <div v-for="(item, index) in emoji.details" :key="index">
+          <Section @click="SelectEmoji.details = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
     </div>
   </div>
 </template>

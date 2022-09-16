@@ -1,11 +1,16 @@
 <template>
   <div
+    flex
+    h10
+    w10
+    p1
+    m1
+    rounded-md
+    border border-1
     bg-gray-100
-    border-rounded-1
-    m-1
-    p-1
     cursor="pointer"
-    hover:bg-gray-200
+    hover="bg-gray-200 dark:bg-gray-500"
+    dark:bg-neutral-600
   >
     <slot />
   </div>

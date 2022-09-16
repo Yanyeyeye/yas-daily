@@ -7,5 +7,10 @@ body,
 }
 
 html.dark {
-  background: #121212;
+  background-color: #333333;
+  color-scheme: dark;
+}
+
+canvas.animation {
+  animation: slidein .3s alternate;
 }
