@@ -45,7 +45,6 @@ onMounted(() => {
   </div>
   <div
     m-auto
-    mb-10
     h-50
     w-50
     border
@@ -53,50 +52,62 @@ onMounted(() => {
     border-rounded-2
     bg-gray-100
   >
-    <img h-50 w-50 absolute :src="Head">
-    <img h-50 w-50 absolute :src="EYEBROW">
-    <img h-50 w-50 absolute :src="EYE">
-    <img h-50 w-50 absolute :src="MOUTH">
-    <img h-50 w-50 absolute :src="DETAIL">
+    <img v-if="Head" h-50 w-50 absolute :src="Head">
+    <img v-if="EYEBROW" h-50 w-50 absolute :src="EYEBROW">
+    <img v-if="EYE" h-50 w-50 absolute :src="EYE">
+    <img v-if="MOUTH" h-50 w-50 absolute :src="MOUTH">
+    <img v-if="DETAIL" h-50 w-50 absolute :src="DETAIL">
   </div>
-  <h2 text-sm font-bold mt-3>Please choose head</h2>
-  <div flex flex-wrap justify-center>
-    <template v-for="item in heads" :key="item.default">
-      <Section @click="Head = item.default">
-        <img :src="item.default">
-      </Section>
-    </template>
-  </div>
-  <h2 text-sm font-bold mt-3>Please choose eyebrows</h2>
-  <div flex flex-wrap justify-center>
-    <template v-for="item in eyebrows" :key="item.default">
-      <Section @click="EYEBROW = item.default">
-        <img :src="item.default">
-      </Section>
-    </template>
-  </div>
-  <h2 text-sm font-bold mt-3>Please choose eyes</h2>
-  <div flex flex-wrap justify-center>
-    <template v-for="item in eyes" :key="item.default">
-      <Section @click="EYE = item.default">
-        <img :src="item.default">
-      </Section>
-    </template>
-  </div>
-  <h2 text-sm font-bold mt-3>Please choose mouths</h2>
-  <div flex flex-wrap justify-center>
-    <template v-for="item in mouths" :key="item.default">
-      <Section @click="MOUTH = item.default">
-        <img :src="item.default">
-      </Section>
-    </template>
-  </div>
-  <h2 text-sm font-bold mt-3>Please choose details</h2>
-  <div flex flex-wrap justify-center>
-    <template v-for="item in details" :key="item.default">
-      <Section @click="DETAIL = item.default">
-        <img :src="item.default">
-      </Section>
-    </template>
+  <div w-100 m-auto>
+    <h2 text-sm font-bold mt-3>
+      Head
+    </h2>
+    <div flex flex-wrap justify-center>
+      <template v-for="item in heads" :key="item.default">
+        <Section @click="Head = item.default">
+          <img :src="item.default">
+        </Section>
+      </template>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Eyebrows
+    </h2>
+    <div flex flex-wrap justify-center>
+      <template v-for="item in eyebrows" :key="item.default">
+        <Section @click="EYEBROW = item.default">
+          <img :src="item.default">
+        </Section>
+      </template>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Eyes
+    </h2>
+    <div flex flex-wrap justify-center>
+      <template v-for="item in eyes" :key="item.default">
+        <Section @click="EYE = item.default">
+          <img :src="item.default">
+        </Section>
+      </template>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Mouths
+    </h2>
+    <div flex flex-wrap justify-center>
+      <template v-for="item in mouths" :key="item.default">
+        <Section @click="MOUTH = item.default">
+          <img :src="item.default">
+        </Section>
+      </template>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Details
+    </h2>
+    <div flex flex-wrap justify-center>
+      <template v-for="item in details" :key="item.default">
+        <Section @click="DETAIL = item.default">
+          <img :src="item.default">
+        </Section>
+      </template>
+    </div>
   </div>
 </template>
