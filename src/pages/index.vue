@@ -92,8 +92,13 @@ function drawBranch(l: Branch) {
 onMounted(() => {
   init()
 })
+const router = useRouter()
+const go = () => {
+  router.push('/emoji')
+}
 </script>
 
 <template>
   <canvas ref="el" width="600" height="600" m="t-5 auto" border />
+  <button btn mt-2 @click="go">emoji</button>
 </template>
