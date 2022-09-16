@@ -2,8 +2,8 @@
 const el = $ref<HTMLCanvasElement>()
 const ctx = $computed(() => el.getContext('2d')!)
 
-const WIDTH = 600
-const HEIGHT = 600
+const WIDTH = 400
+const HEIGHT = 400
 
 interface Point {
   x: number
@@ -99,6 +99,9 @@ const go = () => {
 </script>
 
 <template>
-  <canvas ref="el" width="600" height="600" m="t-5 auto" border />
-  <button btn mt-2 @click="go">emoji</button>
+<div font-800 mb-2 p-5 text-size-8>
+  Create Emoji you Like
+</div>
+  <canvas ref="el" width="400" height="400" m-auto border="~ rounded-2" />
+  <button btn mt-5 @click="go">emoji</button>
 </template>

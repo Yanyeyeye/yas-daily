@@ -30,8 +30,8 @@ type ImportModuleFunction = () => Promise<SvgImageModule> // 返回Promise resol
 
 const el = $ref<HTMLCanvasElement>()
 const ctx = $computed(() => el.getContext('2d')!)
-const WIDTH = 600
-const HEIGHT = 600
+const WIDTH = 1080
+const HEIGHT = 1080
 
 // 得到图片的路径
 async function loadImageArray(params: Record<string, ImportModuleFunction>) {
@@ -109,65 +109,70 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <div font-800 mb-2 style="font-size: 30px;">
-      Create Emoji you Like
-    </div>
-    <div m-auto h-50 w-50 border="~ rounded-2" bg-gray-100 dark:bg-neutral-600>
-      <canvas ref="el" width="600" height="600" h-50 w-50 class="animation" />
-    </div>
+  <div font-800 mb-2 p-5 text-size-8>
+    Create Emoji you Like
   </div>
-  <div>
-    <div w-100 m-auto>
-      <h2 text-sm font-bold mt-3>
-        Head
-      </h2>
-      <div flex flex-wrap justify-center>
-        <div v-for="(item, index) in emoji.heads" :key="index">
-          <Section @click="SelectEmoji.heads = item">
-            <img :src="item">
-          </Section>
-        </div>
+  <canvas
+    ref="el"
+    w-150px
+    h-150px
+    width="1080"
+    height="1080"
+    m-auto
+    border="~ rounded-5"
+    bg-gray-100
+    dark:bg-neutral-600
+    class="animation"
+  />
+  <div m-auto>
+    <h2 text-sm font-bold mt-3>
+      Head
+    </h2>
+    <div flex flex-wrap justify-center>
+      <div v-for="(item, index) in emoji.heads" :key="index">
+        <Section @click="SelectEmoji.heads = item">
+          <img :src="item">
+        </Section>
       </div>
-      <h2 text-sm font-bold mt-3>
-        Eyebrows
-      </h2>
-      <div flex flex-wrap justify-center>
-        <div v-for="(item, index) in emoji.eyebrows" :key="index">
-          <Section @click="SelectEmoji.eyebrows = item">
-            <img :src="item">
-          </Section>
-        </div>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Eyebrows
+    </h2>
+    <div flex flex-wrap justify-center>
+      <div v-for="(item, index) in emoji.eyebrows" :key="index">
+        <Section @click="SelectEmoji.eyebrows = item">
+          <img :src="item">
+        </Section>
       </div>
-      <h2 text-sm font-bold mt-3>
-        Eyes
-      </h2>
-      <div flex flex-wrap justify-center>
-        <div v-for="(item, index) in emoji.eyes" :key="index">
-          <Section @click="SelectEmoji.eyes = item">
-            <img :src="item">
-          </Section>
-        </div>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Eyes
+    </h2>
+    <div flex flex-wrap justify-center>
+      <div v-for="(item, index) in emoji.eyes" :key="index">
+        <Section @click="SelectEmoji.eyes = item">
+          <img :src="item">
+        </Section>
       </div>
-      <h2 text-sm font-bold mt-3>
-        Mouths
-      </h2>
-      <div flex flex-wrap justify-center>
-        <div v-for="(item, index) in emoji.mouths" :key="index">
-          <Section @click="SelectEmoji.mouths = item">
-            <img :src="item">
-          </Section>
-        </div>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Mouths
+    </h2>
+    <div flex flex-wrap justify-center>
+      <div v-for="(item, index) in emoji.mouths" :key="index">
+        <Section @click="SelectEmoji.mouths = item">
+          <img :src="item">
+        </Section>
       </div>
-      <h2 text-sm font-bold mt-3>
-        Details
-      </h2>
-      <div flex flex-wrap justify-center>
-        <div v-for="(item, index) in emoji.details" :key="index">
-          <Section @click="SelectEmoji.details = item">
-            <img :src="item">
-          </Section>
-        </div>
+    </div>
+    <h2 text-sm font-bold mt-3>
+      Details
+    </h2>
+    <div flex flex-wrap justify-center>
+      <div v-for="(item, index) in emoji.details" :key="index">
+        <Section @click="SelectEmoji.details = item">
+          <img :src="item">
+        </Section>
       </div>
     </div>
   </div>
