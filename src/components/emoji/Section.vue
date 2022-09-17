@@ -10,7 +10,7 @@
     bg-gray-100
     cursor="pointer"
     hover="bg-gray-200 dark:bg-gray-500"
-    dark:bg-neutral-600
+    dark:bg-neutral-400
   >
     <slot />
   </div>

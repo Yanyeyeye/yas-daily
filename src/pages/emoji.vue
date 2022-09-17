@@ -30,8 +30,8 @@ type ImportModuleFunction = () => Promise<SvgImageModule> // 返回Promise resol
 
 const el = $ref<HTMLCanvasElement>()
 const ctx = $computed(() => el.getContext('2d')!)
-const WIDTH = 270
-const HEIGHT = 270
+const WIDTH = 1080
+const HEIGHT = 1080
 
 // 得到图片的路径
 async function loadImageArray(params: Record<string, ImportModuleFunction>) {
@@ -150,81 +150,106 @@ onMounted(() => {
 })
 </script>
 
+<script scoped>
+
+</script>
+
 <template>
   <div font-800 mb-5 text="size-8 center">
     Create Emoji you Like
   </div>
-  <div relative w-150px h-150px m-auto>
-    <canvas
-      ref="el" w-150px h-150px width="270" height="270" border="~ rounded-5" bg-gray-100 dark:bg-neutral-600
-      class="animation"
-    />
-    <div btn h-10 w-10 p2 absolute left-125px bottom--10px @click="randRomEmoji">
-      <div i-mdi-refresh text-2xl />
+  <div flex="~ wrap" justify-center bg="dark:neutral-600" ml-10 mr-10 p-10 min-w-80 max-w-250 border="~ rounded-5 width-2" class="phone">
+    <div ml-30 mr-30>
+      <div class="phone-fixed">
+        <div relative w-200px h-200px m-auto>
+          <canvas
+            ref="el" w-200px h-200px width="1080" height="1080" border="~ rounded-5" bg-gray-100 dark:bg-gray-200
+            class="animation"
+          />
+          <div btn h-10 w-10 p2 absolute left-175px bottom--10px @click="randRomEmoji">
+            <div i-mdi-refresh text-2xl />
+          </div>
+        </div>
+        <div mt-5 text-center>
+          <div btn h-10 @click="exportPNG">
+            <div i-mdi-export text-xl />
+            <span font-bold pl-2>
+              Export PNG
+            </span>
+          </div>
+        <!-- <div btn h-10 ml-5 @click="exportSVG">
+                  <div i-mdi-export text-xl />
+                  <span font-bold pl-2>
+                    Export SVG
+                  </span>
+                </div> -->
+        </div>
+      </div>
     </div>
-  </div>
-  <div mt-5 text-center relative>
-    <div btn h-10 @click="exportPNG">
-      <div i-mdi-export text-xl />
-      <span font-bold pl-2>
-        Export PNG
-      </span>
-    </div>
-    <!-- <div btn h-10 ml-5 @click="exportSVG">
-      <div i-mdi-export text-xl />
-      <span font-bold pl-2>
-        Export SVG
-      </span>
-    </div> -->
-  </div>
-  <h2 text-lg font-bold mt-3 pl-2>
-    Head
-  </h2>
-  <div flex="~ wrap">
-    <div v-for="(item, index) in emoji.heads" :key="index">
-      <Section @click="SelectEmoji.heads = item">
-        <img :src="item">
-      </Section>
-    </div>
-  </div>
-  <h2 text-lg font-bold mt-3 pl-2>
-    Eyebrows
-  </h2>
-  <div flex="~ wrap">
-    <div v-for="(item, index) in emoji.eyebrows" :key="index">
-      <Section @click="SelectEmoji.eyebrows = item">
-        <img :src="item">
-      </Section>
-    </div>
-  </div>
-  <h2 text-lg font-bold mt-3 pl-2>
-    Eyes
-  </h2>
-  <div flex="~ wrap">
-    <div v-for="(item, index) in emoji.eyes" :key="index">
-      <Section @click="SelectEmoji.eyes = item">
-        <img :src="item">
-      </Section>
-    </div>
-  </div>
-  <h2 text-lg font-bold mt-3 pl-2>
-    Mouths
-  </h2>
-  <div flex="~ wrap">
-    <div v-for="(item, index) in emoji.mouths" :key="index">
-      <Section @click="SelectEmoji.mouths = item">
-        <img :src="item">
-      </Section>
-    </div>
-  </div>
-  <h2 text-lg font-bold mt-3 pl-2>
-    Details
-  </h2>
-  <div flex="~ wrap">
-    <div v-for="(item, index) in emoji.details" :key="index">
-      <Section @click="SelectEmoji.details = item">
-        <img :src="item">
-      </Section>
+    <div w-100>
+      <h2 text-lg font-bold mt-3 pl-2>
+        Head
+      </h2>
+      <div flex="~ wrap" justify-center>
+        <div v-for="(item, index) in emoji.heads" :key="index">
+          <Section @click="SelectEmoji.heads = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-lg font-bold mt-3 pl-2>
+        Eyebrows
+      </h2>
+      <div flex="~ wrap" justify-center>
+        <div v-for="(item, index) in emoji.eyebrows" :key="index">
+          <Section @click="SelectEmoji.eyebrows = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-lg font-bold mt-3 pl-2>
+        Eyes
+      </h2>
+      <div flex="~ wrap" justify-center>
+        <div v-for="(item, index) in emoji.eyes" :key="index">
+          <Section @click="SelectEmoji.eyes = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-lg font-bold mt-3 pl-2>
+        Mouths
+      </h2>
+      <div flex="~ wrap" justify-center>
+        <div v-for="(item, index) in emoji.mouths" :key="index">
+          <Section @click="SelectEmoji.mouths = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
+      <h2 text-lg font-bold mt-3 pl-2>
+        Details
+      </h2>
+      <div flex="~ wrap" justify-center>
+        <div v-for="(item, index) in emoji.details" :key="index">
+          <Section @click="SelectEmoji.details = item">
+            <img :src="item">
+          </Section>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+@media screen and (min-width: 750px){
+    .phone{
+      margin: 0 auto;
+    }
+    .phone-fixed{
+      position: fixed;
+      left: 25rem;
+      top: 20rem;
+    }
+  }
+</style>
