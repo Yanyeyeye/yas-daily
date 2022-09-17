@@ -150,10 +150,6 @@ onMounted(() => {
 })
 </script>
 
-<script scoped>
-
-</script>
-
 <template>
   <div font-800 mb-5 text="size-8 center">
     Create Emoji you Like
