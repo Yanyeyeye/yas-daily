@@ -91,9 +91,9 @@ function randRomEmoji() {
   const mouthLength = emoji.mouths.length - 1
   const detailLength = emoji.details.length - 1
   SelectEmoji.heads = emoji.heads[randomNumber(0, headLength)]
-  SelectEmoji.eyebrows = emoji.eyebrows[randomNumber(0, eyebrowLength)]
-  SelectEmoji.eyes = emoji.eyes[randomNumber(0, eyeLength)]
-  SelectEmoji.mouths = emoji.mouths[randomNumber(0, mouthLength)]
+  SelectEmoji.eyebrows = emoji.eyebrows[randomNumber(1, eyebrowLength)]
+  SelectEmoji.eyes = emoji.eyes[randomNumber(1, eyeLength)]
+  SelectEmoji.mouths = emoji.mouths[randomNumber(1, mouthLength)]
   SelectEmoji.details = emoji.details[randomNumber(0, detailLength)]
 }
 
