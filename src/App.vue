@@ -5,6 +5,7 @@
 <template>
   <Head />
   <main
+    h-screen
     font-sans
     text=" gray-700 dark:gray-200"
   >
