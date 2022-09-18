@@ -154,7 +154,7 @@ onMounted(() => {
   <div font-800 mb-5 text="size-8 center">
     Create Emoji you Like
   </div>
-  <div flex="~ wrap" justify-center bg="dark:neutral-600" ml-10 mr-10 p-10 min-w-80 max-w-250 border="~ rounded-5 width-2" class="phone">
+  <div flex="~ wrap" justify-center bg="dark:neutral-600" ml-10 mr-10 p-10 min-w-60 max-w-250 border="~ rounded-5 width-2" class="phone">
     <div ml-30 mr-30>
       <div class="phone-fixed">
         <div relative w-200px h-200px m-auto>
