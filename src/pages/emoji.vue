@@ -154,8 +154,8 @@ onMounted(() => {
   <div font-800 mb-5 text="size-8 center">
     Create Emoji you Like
   </div>
-  <div flex="~ wrap" lg="m-auto" justify-center bg="dark:neutral-600" ml-10 mr-10 p-10 min-w-60 max-w-250 border="~ rounded-5 width-2">
-    <div ml-30 mr-30>
+  <div flex="~ wrap" lg="mx-auto" justify-center bg="dark:neutral-600" mx-10 p-10 min-w-60 max-w-250 border="~ rounded-5 width-2">
+    <div mx-30>
       <div>
         <div relative w-200px h-200px m-auto>
           <canvas
@@ -188,7 +188,7 @@ onMounted(() => {
       </h2>
       <div flex="~ wrap" justify-center>
         <div v-for="(item, index) in emoji.heads" :key="index">
-          <Section @click="SelectEmoji.heads = item">
+          <Section :selected="item === SelectEmoji.heads" @click="SelectEmoji.heads = item">
             <img :src="item">
           </Section>
         </div>
@@ -198,7 +198,7 @@ onMounted(() => {
       </h2>
       <div flex="~ wrap" justify-center>
         <div v-for="(item, index) in emoji.eyebrows" :key="index">
-          <Section @click="SelectEmoji.eyebrows = item">
+          <Section @click="SelectEmoji.eyebrows = item" :selected="item === SelectEmoji.eyebrows">
             <img :src="item">
           </Section>
         </div>
@@ -208,7 +208,7 @@ onMounted(() => {
       </h2>
       <div flex="~ wrap" justify-center>
         <div v-for="(item, index) in emoji.eyes" :key="index">
-          <Section @click="SelectEmoji.eyes = item">
+          <Section @click="SelectEmoji.eyes = item" :selected="item === SelectEmoji.eyes">
             <img :src="item">
           </Section>
         </div>
@@ -218,7 +218,7 @@ onMounted(() => {
       </h2>
       <div flex="~ wrap" justify-center>
         <div v-for="(item, index) in emoji.mouths" :key="index">
-          <Section @click="SelectEmoji.mouths = item">
+          <Section @click="SelectEmoji.mouths = item" :selected="item === SelectEmoji.mouths">
             <img :src="item">
           </Section>
         </div>
@@ -228,7 +228,7 @@ onMounted(() => {
       </h2>
       <div flex="~ wrap" justify-center>
         <div v-for="(item, index) in emoji.details" :key="index">
-          <Section @click="SelectEmoji.details = item">
+          <Section @click="SelectEmoji.details = item" :selected="item === SelectEmoji.details">
             <img :src="item">
           </Section>
         </div>
