@@ -30,8 +30,8 @@ type ImportModuleFunction = () => Promise<SvgImageModule> // 返回Promise resol
 
 const el = $ref<HTMLCanvasElement>()
 const ctx = $computed(() => el.getContext('2d')!)
-const WIDTH = 1080
-const HEIGHT = 1080
+const WIDTH = 540
+const HEIGHT = 540
 
 // 得到图片的路径
 async function loadImageArray(params: Record<string, ImportModuleFunction>) {
@@ -154,12 +154,12 @@ onMounted(() => {
   <div font-800 mb-5 text="size-8 center">
     Create Emoji you Like
   </div>
-  <div flex="~ wrap" justify-center bg="dark:neutral-600" ml-10 mr-10 p-10 min-w-60 max-w-250 border="~ rounded-5 width-2" class="phone">
+  <div flex="~ wrap" lg="m-auto" justify-center bg="dark:neutral-600" ml-10 mr-10 p-10 min-w-60 max-w-250 border="~ rounded-5 width-2">
     <div ml-30 mr-30>
-      <div class="phone-fixed">
+      <div>
         <div relative w-200px h-200px m-auto>
           <canvas
-            ref="el" w-200px h-200px width="1080" height="1080" border="~ rounded-5" bg-gray-100 dark:bg-gray-200
+            ref="el" w-200px h-200px width="540" height="540" border="~ rounded-5" bg-gray-100 dark:bg-gray-200
             class="animation"
           />
           <div btn h-10 w-10 p2 absolute left-175px bottom--10px @click="randRomEmoji">
@@ -236,16 +236,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@media screen and (min-width: 750px){
-    .phone{
-      margin: 0 auto;
-    }
-    .phone-fixed{
-      position: fixed;
-      left: 25rem;
-      top: 20rem;
-    }
-  }
-</style>
