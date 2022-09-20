@@ -17,7 +17,7 @@ const captialTitle = computed(() => {
 </script>
 
 <template>
-  <h2 text-lg font-bold pl-2>
+  <h2 text-lg font-bold pl-2 mt-3>
     {{ captialTitle }}
   </h2>
   <div flex="~ wrap" justify-left>

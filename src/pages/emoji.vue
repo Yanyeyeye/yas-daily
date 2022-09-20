@@ -151,45 +151,43 @@ onMounted(() => {
 </script>
 
 <template>
-  <div bg-gradient-to-r from-green-400 to-blue-500>
-    <div font-800 mb-5 text="size-8 center">
-      Create Emoji you Like
-    </div>
-    <div
-      flex="~ wrap" lg="w-300" md="w-150" sm="w-100" w-80 flex-shrink-0 mx-auto justify-center bg="dark:neutral-600" p-10 border="~ rounded-5 width-2"
-      shadow-xl bg-opacity-100 bg-white
-    >
-      <div mx-30>
-        <div>
-          <div relative w-200px h-200px m-auto>
-            <canvas
-              ref="el" w-200px h-200px width="540" height="540" border="~ rounded-5" bg-gray-100 dark:bg-gray-200
-              shadow-lg
-            />
-            <div btn h-10 w-10 p2 absolute left-175px bottom--10px @click="randRomEmoji">
-              <div i-mdi-refresh text-2xl />
-            </div>
+  <div font-800 mb-5 text="size-8 center">
+    Create Emoji you Like
+  </div>
+  <div
+    flex="~ wrap" lg="w-300" md="w-150" sm="w-100" w-80 flex-shrink-0 mx-auto justify-center bg="dark:neutral-600" p-10 border="~ rounded-5 width-2"
+    shadow-lg bg-opacity-100 bg-white
+  >
+    <div mx-30>
+      <div>
+        <div relative w-200px h-200px m-auto>
+          <canvas
+            ref="el" w-200px h-200px width="540" height="540" border="~ rounded-5" bg-gray-100 dark:bg-gray-200
+            shadow-lg
+          />
+          <div btn h-10 w-10 p2 absolute left-175px bottom--10px @click="randRomEmoji">
+            <div i-mdi-refresh text-2xl />
           </div>
-          <div mt-5 text-center>
-            <div btn h-10 @click="exportPNG">
-              <div i-mdi-export text-xl />
-              <span font-bold pl-2>
-                Export PNG
-              </span>
-            </div>
+        </div>
+        <div mt-5 text-center>
+          <div btn h-10 @click="exportPNG">
+            <div i-mdi-export text-xl />
+            <span font-bold pl-2>
+              Export PNG
+            </span>
+          </div>
           <!-- <div btn h-10 ml-5 @click="exportSVG">
                     <div i-mdi-export text-xl />
                     <span font-bold pl-2>
                       Export SVG
                     </span>
                   </div> -->
-          </div>
         </div>
       </div>
-      <div w-130>
-        <div v-for="(value, key) in emoji" :key="key">
-          <Partion :partions="value" :title="key" :select-partions="SelectEmoji[key]" @choose="n => SelectEmoji[key] = n" />
-        </div>
+    </div>
+    <div w-130>
+      <div v-for="(value, key) in emoji" :key="key">
+        <Partion :partions="value" :title="key" :select-partions="SelectEmoji[key]" @choose="n => SelectEmoji[key] = n" />
       </div>
     </div>
   </div>
