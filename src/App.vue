@@ -10,6 +10,7 @@
   >
     <router-view />
   </main>
+  <Foot />
 </template>
 
 <style scoped>
