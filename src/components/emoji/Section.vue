@@ -2,22 +2,16 @@
 interface Props {
   selected: boolean
 }
-const props = defineProps<Props>()
+const { selected } = defineProps<Props>()
 </script>
 
 <template>
   <div
-    flex
-    h10
-    w10
-    p1
-    m1
-    rounded-md
-    border="~ 1"
+    flex h-10 w-10 p-1 m-1
+    border="~ 1 rounded-md"
     cursor="pointer"
-    hover="bg-gray-200 dark:bg-gray-500"
-    :class="{ 'border-emerald-500 border-2 bg-emerald-100': props.selected }"
-    dark:bg-neutral-400
+    hover="bg-emerald-100 border-2 border-emerald-500 dark:bg-emerald-300 "
+    :class="selected ? 'border-emerald-500 border-2 bg-emerald-100 dark:bg-emerald-300' : 'bg-gray-100 border-2 dark:border-gray-500 dark:bg-gray-400'"
   >
     <slot />
   </div>

@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Head: typeof import('./src/components/system/Head.vue')['default']
+    Partion: typeof import('./src/components/emoji/Partion.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Section: typeof import('./src/components/emoji/Section.vue')['default']
