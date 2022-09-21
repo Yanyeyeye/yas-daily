@@ -148,6 +148,10 @@ function exportPNG() {
 onMounted(() => {
   getImages()
 })
+const router = useRouter()
+const go = () => {
+  router.push('/bus')
+}
 </script>
 
 <template>
@@ -189,6 +193,14 @@ onMounted(() => {
       <div v-for="(value, key) in emoji" :key="key">
         <Partion :partions="value" :title="key" :select-partions="SelectEmoji[key]" @choose="n => SelectEmoji[key] = n" />
       </div>
+    </div>
+  </div>
+  <div lg="text-right" text-center mt-3 mr-3>
+    <div btn h-10 @click="go">
+      <div i-carbon-bus text-xl />
+      <span font-bold pl-2>
+        Emoji
+      </span>
     </div>
   </div>
 </template>
