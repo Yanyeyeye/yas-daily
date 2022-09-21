@@ -31,6 +31,11 @@ export default defineConfig({
         'vue-router',
         '@vueuse/core',
         'vue/macros',
+        {
+          axios: [
+            ['default', 'axios'], // import { default as axios } from 'axios',
+          ],
+        },
       ],
       // 自动导入组合式API文件，即混入自定义的函数
       dirs: [
