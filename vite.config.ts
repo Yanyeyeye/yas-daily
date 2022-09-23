@@ -40,6 +40,7 @@ export default defineConfig({
       // 自动导入组合式API文件，即混入自定义的函数
       dirs: [
         './src/composables',
+        './src/composables/**',
       ],
       dts: true, // 自动生成auto-imports.d.ts全局声明文件
       vueTemplate: true, // 能够自动引入unref对于ref的自动引入在volar中生成新的提示错误

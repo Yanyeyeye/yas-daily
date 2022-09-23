@@ -1,17 +1,9 @@
-<script setup lang="ts">
-import { useAxios } from '@vueuse/integrations/useAxios'
-
-async function getBusData() {
-  const instance = axios.create({
-    baseURL: 'https://api.8684.cn/',
-  })
-
-  const { data } = useAxios('bus_station_map_station.php?code=24f5dad9&ecity=shaoxing&kind=1', { method: 'POST' }, instance)
-  console.log(data)
-}
-getBusData()
+<script lang="ts" setup>
+const { BusData } = use8486BusData()
 </script>
 
 <template>
-  <h3>bus</h3>
+  <h3>bus:</h3>
+  <p>{{ BusData }}</p>
+  <h3>总共：{{ BusData.length }}条线路</h3>
 </template>
