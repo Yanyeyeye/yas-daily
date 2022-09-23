@@ -199,7 +199,7 @@ const go = () => {
     <div btn h-10 @click="go">
       <div i-carbon-bus text-xl />
       <span font-bold pl-2>
-        Emoji
+        Bus
       </span>
     </div>
   </div>
