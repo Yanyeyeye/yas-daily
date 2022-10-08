@@ -44,18 +44,15 @@ planeMesh.receiveShadow = true
 // scene.add(pointLightHelper)
 
 // 聚光顶
-const spotLight = new t.SpotLight(0xFFFFFF)
+const spotLight = new t.SpotLight(0xFFFFFF, 2)
+spotLight.castShadow = true
 // 设置光源位置
 spotLight.position.set(100, 200, 200)
 spotLight.penumbra = 1
-spotLight.angle = Math.PI / 10
+spotLight.angle = Math.PI / 8
 scene.add(spotLight)
-// 光源投影
-spotLight.castShadow = true
-// 设置计算阴影的区域，注意包裹对象的周围
-spotLight.shadow.camera.near = 10
-spotLight.shadow.camera.far = 20
-spotLight.shadow.focus = 1
+
+spotLight.shadow.camera.far = 600 // near < far
 
 // 聚光灯辅助对象
 const lightHelper = new t.SpotLightHelper(spotLight)
@@ -71,27 +68,25 @@ const PROPOTION = WIDTH / HEIGHT
 const RANGE = 200
 
 const camera = new t.OrthographicCamera(-RANGE * PROPOTION, RANGE * PROPOTION, RANGE, -RANGE, 1, 1000)
-camera.position.set(500, 100, 50)
+camera.position.set(500, 100, 0)
 camera.lookAt(scene.position)
 
 const renderer = new t.WebGLRenderer()
+// 开启阴影
+renderer.shadowMap.enabled = true
 renderer.setSize(WIDTH, HEIGHT)
 renderer.setClearColor(0x000, 0.9)
 renderer.render(scene, camera)
-renderer.shadowMap.enabled = true
-
 onMounted(() => {
   document.getElementById('crown')!.appendChild(renderer.domElement)
 })
 
 const controls = new OrbitControls(camera, renderer.domElement)
-controls.addEventListener('change', () => {
-  renderer.render(scene, camera)
-})
 
 // 旋转
 let T0 = new Date().getTime()
 function animate() {
+  controls.update()
   const T1 = new Date().getTime()
   const t = T1 - T0
   T0 = T1
