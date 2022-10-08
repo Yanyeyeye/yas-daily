@@ -6,6 +6,7 @@ specifiers:
   '@iconify-json/jam': ^1.1.2
   '@iconify-json/mdi': ^1.1.33
   '@types/node': ^18.8.3
+  '@types/stats.js': ^0.17.0
   '@types/three': ^0.144.0
   '@unocss/preset-icons': ^0.45.26
   '@unocss/reset': ^0.45.26
@@ -15,6 +16,7 @@ specifiers:
   '@vueuse/integrations': ^9.3.0
   axios: ^0.27.2
   eslint: ^8.25.0
+  stats.js: ^0.17.0
   three: ^0.145.0
   typescript: ^4.8.4
   unocss: ^0.45.26
@@ -28,10 +30,10 @@ specifiers:
 
 dependencies:
   '@iconify-json/jam': 1.1.2
-  '@types/three': 0.144.0
   '@vueuse/core': 9.3.0_vue@3.2.40
   '@vueuse/integrations': 9.3.0_axios@0.27.2+vue@3.2.40
   axios: 0.27.2
+  stats.js: 0.17.0
   three: 0.145.0
   vue: 3.2.40
   vue-router: 4.1.5_vue@3.2.40
@@ -41,6 +43,8 @@ devDependencies:
   '@iconify-json/carbon': 1.1.8
   '@iconify-json/mdi': 1.1.33
   '@types/node': 18.8.3
+  '@types/stats.js': 0.17.0
+  '@types/three': 0.144.0
   '@unocss/preset-icons': 0.45.26
   '@unocss/reset': 0.45.26
   '@vitejs/plugin-vue': 3.1.2_vite@3.1.6+vue@3.2.40
@@ -398,11 +402,15 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
+  /@types/stats.js/0.17.0:
+    resolution: {integrity: sha512-9w+a7bR8PeB0dCT/HBULU2fMqf6BAzvKbxFboYhmDtDkKPiyXYbjoe2auwsXlEFI7CFNMF1dCv3dFH5Poy9R1w==}
+    dev: true
+
   /@types/three/0.144.0:
     resolution: {integrity: sha512-psvEs6q5rLN50jUYZ3D4pZMfxTbdt3A243blt0my7/NcL6chaCZpHe2csbCtx0SOD9fI/XnF3wnVUAYZGqCSYg==}
     dependencies:
       '@types/webxr': 0.5.0
-    dev: false
+    dev: true
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
@@ -413,7 +421,7 @@ packages:
 
   /@types/webxr/0.5.0:
     resolution: {integrity: sha512-IUMDPSXnYIbEO2IereEFcgcqfDREOgmbGqtrMpVPpACTU6pltYLwHgVkrnYv0XhWEcjio9sYEfIEzgn3c7nDqA==}
-    dev: false
+    dev: true
 
   /@typescript-eslint/eslint-plugin/5.39.0_cfd7h3iktziq6hcwahu2qxhjhy:
     resolution: {integrity: sha512-xVfKOkBm5iWMNGKQ2fwX5GVgBuHmZBO1tCRwXmY5oAIsPscfwm2UADDuNB8ZVYCtpQvJK4xpjrK7jEhcJ0zY9A==}
@@ -3260,6 +3268,10 @@ packages:
   /spdx-license-ids/3.0.12:
     resolution: {integrity: sha512-rr+VVSXtRhO4OHbXUiAF7xW3Bo9DuuF6C5jH+q/x15j2jniycgKbxU09Hr0WqlSLUs4i4ltHGXqTe7VHclYWyA==}
     dev: true
+
+  /stats.js/0.17.0:
+    resolution: {integrity: sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==}
+    dev: false
 
   /streamsearch/1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}

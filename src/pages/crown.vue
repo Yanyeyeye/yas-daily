@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import * as t from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import Stats from 'stats.js'
 
 const scene = new t.Scene()
-
 const geometry = new t.BoxGeometry(100, 100, 100) // 创建一个立方体几何对象Geometry
 // 点渲染模式
 const material = new t.MeshLambertMaterial({
@@ -77,8 +77,16 @@ renderer.shadowMap.enabled = true
 renderer.setSize(WIDTH, HEIGHT)
 renderer.setClearColor(0x000, 0.9)
 renderer.render(scene, camera)
+
+// 帧率显示器
+const stats = new Stats()
+stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+stats.dom.style.position = 'absolute'
+stats.dom.style.top = '53px'
+stats.dom.style.left = '0px'
 onMounted(() => {
   document.getElementById('crown')!.appendChild(renderer.domElement)
+  document.getElementById('crown')!.appendChild(stats.dom)
 })
 
 const controls = new OrbitControls(camera, renderer.domElement)
@@ -86,13 +94,15 @@ const controls = new OrbitControls(camera, renderer.domElement)
 // 旋转
 let T0 = new Date().getTime()
 function animate() {
+  stats.begin()
   controls.update()
   const T1 = new Date().getTime()
   const t = T1 - T0
   T0 = T1
-  requestAnimationFrame(animate)
+  stats.end()
   renderer.render(scene, camera)
-  faces.rotateY(0.0003 * t)
+  faces.rotateY(0.0009 * t)
+  requestAnimationFrame(animate)
 }
 animate()
 </script>
