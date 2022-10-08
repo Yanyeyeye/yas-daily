@@ -3,16 +3,16 @@ import * as t from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const scene = new t.Scene()
-
-const geometry = new t.IcosahedronGeometry(100, 2)
-
-const material = new t.MeshDepthMaterial({
-  wireframe: true,
+const geometry = new t.SphereGeometry(80, 50, 25)
+const material = new t.PointsMaterial({
+  color: 0xE5C07B,
+  size: 3,
 })
-const mesh = new t.Mesh(geometry, material)
-scene.add(mesh)
+const point = new t.Points(geometry, material) // 网格对象
+scene.add(point)
 
-// const axesHelper = new t.AxesHelper(250)
+// 坐标轴
+// const axesHelper = new t.AxesHelper(300)
 // scene.add(axesHelper)
 
 // 灯光
@@ -55,9 +55,7 @@ function animate() {
   T0 = T1
   requestAnimationFrame(animate)
   renderer.render(scene, camera)
-  mesh.rotateY(0.0001 * t)
-  mesh.rotateX(0.0001 * t)
-  mesh.rotateZ(0.0001 * t)
+  point.rotateY(0.0003 * t)
 }
 animate()
 </script>
