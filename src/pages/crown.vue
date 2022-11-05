@@ -1,110 +1,112 @@
 <script setup lang="ts">
 import * as t from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import Stats from 'stats.js'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
+// import * as dat from 'dat.gui'
 
 const scene = new t.Scene()
-const geometry = new t.BoxGeometry(100, 100, 100) // 创建一个立方体几何对象Geometry
-// 点渲染模式
-const material = new t.MeshLambertMaterial({
-  color: 0x906EFE,
-  transparent: true,
-  opacity: 0.8,
-}) // 材质对象
-const faces = new t.Mesh(geometry, material)
-scene.add(faces)
+/**
+ * texture
+ */
+const textureLoader = new t.TextureLoader()
+const textureMatcap = textureLoader.load(new URL('../assets/textures/matcaps/8.png', import.meta.url).href)
 
-// 设置产生投影的网格模型
-faces.castShadow = true
+/**
+ * fonts
+ */
+const loader = new FontLoader()
+loader.load(
+  new URL('../assets/fonts/helvetiker_bold.typeface.json', import.meta.url).href,
+  (font) => {
+    const geometry = new TextGeometry(
+      'Yanyeyeyes', // 要实现的字体
+      {
+        font, // 所加载使用的字体
+        size: 0.5, // 字体大小
+        height: 0.2, // 文本厚度
+        curveSegments: 3, // 文本曲线上点的数量
+        bevelEnabled: true, // 是否开启斜角，默认为false
+        bevelThickness: 0.03, // 文本上斜角的深度
+        bevelSize: 0.02,
+        bevelSegments: 3, // 斜角的分段数
+      },
+    )
+    geometry.computeBoundingBox()
+    geometry.center()
+    const material = new t.MeshMatcapMaterial({ matcap: textureMatcap })
+    const mesh = new t.Mesh(geometry, material)
+    scene.add(mesh)
+  },
+)
 
-// 创建一个平面几何体作为投影面
-const planeGeometry = new t.PlaneGeometry(600, 700)
-const planeMaterial = new t.MeshLambertMaterial({
-  color: 0x808080,
-})
-// 平面网格模型作为投影面
-const planeMesh = new t.Mesh(planeGeometry, planeMaterial)
-scene.add(planeMesh) // 网格模型添加到场景中
-planeMesh.rotateX(-Math.PI / 2) // 旋转网格模型
-planeMesh.position.y = -50 // 设置网格模型y坐标
-// 设置接收阴影的投影面
-planeMesh.receiveShadow = true
+/**
+ * geometry
+ */
+const geometry = new t.BoxGeometry(1, 1, 1)
+const material = new t.MeshMatcapMaterial({ matcap: textureMatcap })
+for (let i = 0; i < 300; i++) {
+  const box = new t.Mesh(geometry, material)
+  // 改变box的位置
+  box.position.x = (Math.random() - 0.5) * 10
+  box.position.y = (Math.random() - 0.5) * 10
+  box.position.z = (Math.random() - 0.5) * 10
 
-// 坐标轴
-// const axesHelper = new t.AxesHelper(300)
-// scene.add(axesHelper)
+  // 改变box的朝向
+  box.rotation.x = Math.random() * Math.PI
+  box.rotation.y = Math.random() * Math.PI
 
-// 灯光
-// const lightPoint = new t.PointLight(0xFFFFFF)
-// lightPoint.position.set(100, 200, 300)
-// scene.add(lightPoint)
+  // 改变box大小
+  const scale = Math.random()
+  // box.scale.x = scale
+  // box.scale.y = scale
+  // box.scale.z = scale
+  box.scale.set(scale, scale, scale)
 
-// const sphereSize = 10
-// const pointLightHelper = new t.PointLightHelper(lightPoint, sphereSize)
-// scene.add(pointLightHelper)
+  scene.add(box)
+}
 
-// 聚光顶
-const spotLight = new t.SpotLight(0xFFFFFF, 2)
-spotLight.castShadow = true
-// 设置光源位置
-spotLight.position.set(100, 200, 200)
-spotLight.penumbra = 1
-spotLight.angle = Math.PI / 8
-scene.add(spotLight)
+const SIZE = {
+  width: window.innerWidth,
+  height: window.innerHeight - 130,
+}
+const PROPOTION = SIZE.width / SIZE.height
 
-spotLight.shadow.camera.far = 600 // near < far
-
-// 聚光灯辅助对象
-const lightHelper = new t.SpotLightHelper(spotLight)
-scene.add(lightHelper)
-
-// 自然光
-const envLight = new t.AmbientLight(0x888888)
-scene.add(envLight)
-
-const WIDTH = window.innerWidth
-const HEIGHT = window.innerHeight - 130
-const PROPOTION = WIDTH / HEIGHT
-const RANGE = 200
-
-const camera = new t.OrthographicCamera(-RANGE * PROPOTION, RANGE * PROPOTION, RANGE, -RANGE, 1, 1000)
-camera.position.set(500, 100, 0)
-camera.lookAt(scene.position)
+const camera = new t.PerspectiveCamera(75, PROPOTION)
+camera.position.z = 2
 
 const renderer = new t.WebGLRenderer()
-// 开启阴影
-renderer.shadowMap.enabled = true
-renderer.setSize(WIDTH, HEIGHT)
+renderer.setSize(SIZE.width, SIZE.height)
 renderer.setClearColor(0x000, 0.9)
-renderer.render(scene, camera)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+// 设置自动检测大小
+WinResize(SIZE, { yoffset: 130 }, camera, renderer)
 
 // 帧率显示器
-const stats = new Stats()
-stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-stats.dom.style.position = 'absolute'
-stats.dom.style.top = '53px'
-stats.dom.style.left = '0px'
+const stats = statsPanel('crown', 0, { top: 53 })
 onMounted(() => {
   document.getElementById('crown')!.appendChild(renderer.domElement)
-  document.getElementById('crown')!.appendChild(stats.dom)
 })
 
+// 鼠标操作
 const controls = new OrbitControls(camera, renderer.domElement)
+controls.enableDamping = true
 
-// 旋转
-let T0 = new Date().getTime()
-function animate() {
-  stats.begin()
-  controls.update()
-  const T1 = new Date().getTime()
-  const t = T1 - T0
-  T0 = T1
-  stats.end()
-  renderer.render(scene, camera)
-  faces.rotateY(0.0009 * t)
-  requestAnimationFrame(animate)
+// const clock = new t.Clock() // 从初始化时就开始运行
+// animate()
+const animate = () => {
+  stats.begin() // 帧率显示器
+  controls.update() // 鼠标控制
+  // const elapsedTime = clock.getElapsedTime() // 得到过去的时间，返回的是秒
+  // sphere.rotation.y = elapsedTime
+  // plane.rotation.y = elapsedTime
+  // torus.rotation.y = elapsedTime
+  renderer.render(scene, camera) // 重新渲染渲染器也就是让渲染器拍照记录物体新的位置
+  stats.end()// 帧率显示器
+  requestAnimationFrame(animate)// 调用动画渲染60帧/s的显示屏
 }
-animate()
+animate() // 调用动画函数
 </script>
 
 <template>
