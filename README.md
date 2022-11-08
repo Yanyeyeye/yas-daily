@@ -6,6 +6,8 @@
    - learn from antfu
 2. :kissing_heart: 表情创作
    - learn from diu
+3. :ghost: 3D万圣节
+   - learn from Bruno Simon
 
 将要去做的：
 
