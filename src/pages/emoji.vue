@@ -29,7 +29,7 @@ type SvgImageModule = typeof import('*.svg') // 导入svg模块的类型
 type ImportModuleFunction = () => Promise<SvgImageModule> // 返回Promise resolve状态时的值
 
 const el = $ref<HTMLCanvasElement>()
-const ctx = $computed(() => el.getContext('2d')!)
+const ctx = $computed(() => el!.getContext('2d')!)
 const WIDTH = 540
 const HEIGHT = 540
 
@@ -112,22 +112,22 @@ watch(SelectEmoji, () => {
     generateImages(detailPath),
   ]).then((images) => {
     // 清除画布
-    ctx.clearRect(0, 0, el.width, el.height)
+    ctx.clearRect(0, 0, el!.width, el!.height)
     // 遍历得到的图片集
     images.forEach((img) => {
       // 画emoji的身体各个部分
       img && ctx.drawImage(img, 0, 0, WIDTH, HEIGHT)
     })
-    el.classList.add('animation')
+    el!.classList.add('animation')
     setTimeout(() => {
-      el.classList.remove('animation')
+      el!.classList.remove('animation')
     }, 500)
   })
 })
 
 // 导出PNG图片
 function exportPNG() {
-  el.toBlob((blob: Blob | null) => {
+  el!.toBlob((blob: Blob | null) => {
     const PNG = document.createElement('a')
     const url = URL.createObjectURL(blob!)
     PNG.href = url

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const router = useRouter()
 const go = () => {
-  router.push('/crown')
+  router.push('/galaxy')
 }
 </script>
 
@@ -9,9 +9,9 @@ const go = () => {
   <h3>bus:</h3>
   <div lg="text-right" text-center mt-3 mr-3>
     <div btn h-10 @click="go">
-      <div i-jam-crown text-xl />
+      <div i-jam-star text-xl />
       <span font-bold pl-2>
-        crown
+        galaxy
       </span>
     </div>
   </div>
