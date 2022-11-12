@@ -128,9 +128,9 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 WinResize(SIZE, { yoffset: 130 }, camera, renderer)
 
 // 帧率显示器
-const stats = statsPanel('crown', 0, { top: 53 })
+const stats = statsPanel('galaxy', 0, { top: 53 })
 onMounted(() => {
-  document.getElementById('crown')!.appendChild(renderer.domElement)
+  document.getElementById('galaxy')!.appendChild(renderer.domElement)
 })
 
 // 鼠标操作
@@ -150,8 +150,25 @@ const animate = () => {
   requestAnimationFrame(animate)// 调用动画渲染60帧/s的显示屏
 }
 animate() // 调用动画函数
+
+const router = useRouter()
+const go = () => {
+  router.push('/three')
+}
 </script>
 
 <template>
-  <div id="crown" />
+  <div id="galaxy">
+    <div absolute top-145 right-5>
+      <div btn h-10 @click="go">
+        <div
+          i-jam-aperture
+          text-xl
+        />
+        <span font-bold pl-2>
+          galaxy
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
