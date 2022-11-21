@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import * as t from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 // import * as c from 'cannon-es' //物理
 // import * as dat from 'dat.gui' // 调试
 // import gsap from 'gsap'
@@ -9,17 +11,41 @@ const scene = new t.Scene()
 // const gui = new dat.GUI({ closed: true })
 
 /**
+ * GLTFLoader
+ */
+let mixer: t.AnimationMixer | null = null
+const gltfLoader = new GLTFLoader()
+gltfLoader.load(
+  new URL('../assets/models/Fox/glTF/Fox.gltf', import.meta.url).href,
+  (gltf) => {
+    gltf.scene.scale.set(0.03, 0.03, 0.03)
+    scene.add(gltf.scene)
+    mixer = new t.AnimationMixer(gltf.scene)
+    const action = mixer.clipAction(gltf.animations[2])
+    action.play()
+  },
+)
+
+/**
+ * Plane
+ */
+const planeGeometry = new t.PlaneGeometry(30, 30)
+const planeMaterial = new t.MeshStandardMaterial()
+const plane = new t.Mesh(planeGeometry, planeMaterial)
+plane.rotation.x = -Math.PI * 0.5
+scene.add(plane)
+/**
  * ambientLight and directLight
  */
 const ambientLight = new t.AmbientLight(0xFFFFFF, 0.5)// 环境光源
 const directLight = new t.DirectionalLight(0xFFFCCC, 0.5)
-directLight.castShadow = true // 平行光能产生阴影
-directLight.position.x = 2
-directLight.position.y = 3
-directLight.position.z = 2
-const directLightHelper = new t.DirectionalLightHelper(directLight, 0.5)
+// directLight.castShadow = true // 平行光能产生阴影
+// directLight.position.x = 2
+// directLight.position.y = 3
+// directLight.position.z = 2
+// const directLightHelper = new t.DirectionalLightHelper(directLight, 0.5)
 
-scene.add(ambientLight, directLight, directLightHelper)
+scene.add(ambientLight, directLight)
 
 const SIZE = {
   width: window.innerWidth,
@@ -28,9 +54,9 @@ const SIZE = {
 const PROPOTION = SIZE.width / SIZE.height
 
 const camera = new t.PerspectiveCamera(75, PROPOTION)
-camera.position.z = 10
-camera.position.x = 0
-camera.position.y = 10
+camera.position.z = 3
+camera.position.x = 2
+camera.position.y = 3
 
 const renderer = new t.WebGLRenderer()
 renderer.setSize(SIZE.width, SIZE.height)
@@ -60,17 +86,17 @@ controls.enableDamping = true
 // 双击全屏化
 dbClkfullScreen(document.body)
 
-// let previousTime = 0
-// const clock = new t.Clock() // 从初始化时就开始运行
+let previousTime = 0
+const clock = new t.Clock() // 从初始化时就开始运行
 // animate()
 const animate = () => {
   stats.begin() // 帧率显示器
   controls.update() // 鼠标控制
-  // const elapsedTime = clock.getElapsedTime() // 得到过去的时间，返回的是秒
-  // const deltaTime = elapsedTime - previousTime
-  // previousTime = elapsedTime
+  const elapsedTime = clock.getElapsedTime() // 得到过去的时间，返回的是秒
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
   // TODO
-
+  mixer?.update(deltaTime)
   renderer.render(scene, camera) // 重新渲染渲染器也就是让渲染器拍照记录物体新的位置
   stats.end()// 帧率显示器
   requestAnimationFrame(animate)// 调用动画渲染60帧/s的显示屏
