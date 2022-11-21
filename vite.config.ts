@@ -18,7 +18,7 @@ export default defineConfig({
     vue({
       reactivityTransform: true, // 手动开启实验性响应性语法糖
     }),
-    // 自动实现路由,要导航的页面都应该放在pages中,所用插件'vite-plugin-pages‘
+    // 自动实现路由,要导航的页面都应该放在pages中,所用插件'vite-plugin-pages'
     Pages(),
     // 配置详见unocss.config.ts
     Unocss(),

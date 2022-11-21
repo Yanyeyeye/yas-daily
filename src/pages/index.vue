@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const el = $ref<HTMLCanvasElement>()
-const ctx = $computed(() => el.getContext('2d')!)
+const ctx = $computed(() => el!.getContext('2d')!)
 
 const WIDTH = 300
 const HEIGHT = 300

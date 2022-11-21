@@ -9,7 +9,7 @@ declare global {
   const $shallowRef: typeof import('vue/macros')['$shallowRef']
   const $toRef: typeof import('vue/macros')['$toRef']
   const EffectScope: typeof import('vue')['EffectScope']
-  const WinResize: typeof import('./src/composables/crown/utils')['WinResize']
+  const WinResize: typeof import('./src/composables/three/utils')['WinResize']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const axios: typeof import('axios')['default']
@@ -28,6 +28,7 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
   const customRef: typeof import('vue')['customRef']
+  const dbClkfullScreen: typeof import('./src/composables/three/utils')['dbClkfullScreen']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
@@ -87,10 +88,11 @@ declare global {
   const resolveDirective: typeof import('vue')['resolveDirective']
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
+  const setFullScreen: typeof import('./src/composables/three/utils')['setFullScreen']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
-  const statsPanel: typeof import('./src/composables/crown/stats')['statsPanel']
+  const statsPanel: typeof import('./src/composables/three/stats')['statsPanel']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
   const templateRef: typeof import('@vueuse/core')['templateRef']
@@ -289,7 +291,7 @@ declare module 'vue' {
     readonly $shallowRef: UnwrapRef<typeof import('vue/macros')['$shallowRef']>
     readonly $toRef: UnwrapRef<typeof import('vue/macros')['$toRef']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly WinResize: UnwrapRef<typeof import('./src/composables/crown/utils')['WinResize']>
+    readonly WinResize: UnwrapRef<typeof import('./src/composables/three/utils')['WinResize']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly axios: UnwrapRef<typeof import('axios')['default']>
@@ -308,6 +310,7 @@ declare module 'vue' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
+    readonly dbClkfullScreen: UnwrapRef<typeof import('./src/composables/three/utils')['dbClkfullScreen']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
@@ -367,10 +370,11 @@ declare module 'vue' {
     readonly resolveDirective: UnwrapRef<typeof import('vue')['resolveDirective']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
+    readonly setFullScreen: UnwrapRef<typeof import('./src/composables/three/utils')['setFullScreen']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
-    readonly statsPanel: UnwrapRef<typeof import('./src/composables/crown/stats')['statsPanel']>
+    readonly statsPanel: UnwrapRef<typeof import('./src/composables/three/stats')['statsPanel']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>

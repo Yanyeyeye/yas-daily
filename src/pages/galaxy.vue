@@ -159,7 +159,7 @@ const go = () => {
 
 <template>
   <div id="galaxy">
-    <div absolute top-145 right-5>
+    <div absolute bottom-20 right-5>
       <div btn h-10 @click="go">
         <div
           i-jam-aperture
