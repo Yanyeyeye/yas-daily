@@ -5,6 +5,7 @@ import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Pages from 'vite-plugin-pages'
+import glsl from 'vite-plugin-glsl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -49,5 +50,6 @@ export default defineConfig({
     Components({
       dts: true, // 使用typescript时默认开启，自动生成components.d.ts声明文件
     }),
+    glsl(),
   ],
 })
