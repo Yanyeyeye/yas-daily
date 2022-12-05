@@ -6,6 +6,10 @@
    - learn from antfu
 2. :kissing_heart: 表情创作
    - learn from diu
+3. ✨ 银河
+   - learn from Bruno Simon
+4. 🌊 海浪
+   - learn from Bruno Simon
 
 将要去做的：
 
