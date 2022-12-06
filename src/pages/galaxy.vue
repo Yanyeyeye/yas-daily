@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import * as t from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-// import * as dat from 'dat.gui'
+import * as dat from 'dat.gui'
 
 /**
  * gui
  */
-// const gui = new dat.GUI({ closed: true, width: 400 }) // 设置关闭与宽度
+const gui = new dat.GUI({ closed: true, width: 400 }) // 设置关闭与宽度
 
 const scene = new t.Scene()
 /**
@@ -98,15 +98,15 @@ generateGalaxy()
  * GUI
  */
 
-// gui.add(parameters, 'count').min(100).max(100000).step(100).onFinishChange(generateGalaxy)
-// gui.add(parameters, 'size').min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy)
-// gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy)
-// gui.add(parameters, 'branch').min(1).max(10).step(1).onFinishChange(generateGalaxy)
-// gui.add(parameters, 'spin').min(-5).max(5).step(0.001).onFinishChange(generateGalaxy)
-// gui.add(parameters, 'randomness').min(0).max(2).step(0.001).onFinishChange(generateGalaxy)
-// gui.add(parameters, 'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
-// gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
-// gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
+gui.add(parameters, 'count').min(100).max(100000).step(100).onFinishChange(generateGalaxy)
+gui.add(parameters, 'size').min(0.001).max(0.1).step(0.001).onFinishChange(generateGalaxy)
+gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(generateGalaxy)
+gui.add(parameters, 'branch').min(1).max(10).step(1).onFinishChange(generateGalaxy)
+gui.add(parameters, 'spin').min(-5).max(5).step(0.001).onFinishChange(generateGalaxy)
+gui.add(parameters, 'randomness').min(0).max(2).step(0.001).onFinishChange(generateGalaxy)
+gui.add(parameters, 'randomnessPower').min(1).max(10).step(0.001).onFinishChange(generateGalaxy)
+gui.addColor(parameters, 'insideColor').onFinishChange(generateGalaxy)
+gui.addColor(parameters, 'outsideColor').onFinishChange(generateGalaxy)
 
 const SIZE = {
   width: window.innerWidth,
@@ -125,7 +125,7 @@ renderer.setClearColor(0x000, 1)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // renderer.setClearColor(0x262837)
 // 设置自动检测大小
-WinResize(SIZE, { yoffset: 130 }, camera, renderer)
+WinResize(SIZE, camera, renderer, { yoffset: 130 })
 
 // 帧率显示器
 const stats = statsPanel('galaxy', 0, { top: 53 })
@@ -153,7 +153,7 @@ animate() // 调用动画函数
 
 const router = useRouter()
 const go = () => {
-  router.push('/three')
+  router.push('/sea')
 }
 </script>
 
@@ -166,7 +166,7 @@ const go = () => {
           text-xl
         />
         <span font-bold pl-2>
-          galaxy
+          sea
         </span>
       </div>
     </div>
