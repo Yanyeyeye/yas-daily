@@ -2,10 +2,10 @@
 import * as t from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui' // 调试
-import testVertexShader from '../glsl/vertex.glsl'
-import testFragmentShader from '../glsl/fragment.glsl'
+import testVertexShader from '../glsl/vertex.glsl?raw'
+import testFragmentShader from '../glsl/fragment.glsl?raw'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'b
 // import * as c from 'cannon-es' //物理
 // import gsap from 'gsap'
 
@@ -169,7 +169,7 @@ const animate = () => {
 animate() // 调用动画函数
 const router = useRouter()
 const go = () => {
-  router.push('/three')
+  router.push('/universe')
 }
 </script>
 
@@ -179,7 +179,7 @@ const go = () => {
       <div btn h-10 @click="go">
         <div i-jam-aperture text-xl />
         <span font-bold pl-2>
-          three
+          universe
         </span>
       </div>
     </div>
