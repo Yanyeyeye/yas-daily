@@ -182,9 +182,9 @@ const smaaPass = new SMAAPass(SIZE.width, SIZE.height)
 effectComposer.addPass(smaaPass)
 
 // 帧率显示器
-const stats = statsPanel('three', 0, { top: 53 })
+const stats = statsPanel('helmet', 0, { top: 53 })
 onMounted(() => {
-  document.getElementById('three')!.appendChild(renderer.domElement)
+  document.getElementById('helmet')!.appendChild(renderer.domElement)
 })
 
 // 鼠标操作
@@ -205,21 +205,21 @@ const animate = () => {
 }
 animate() // 调用动画函数
 
-// const router = useRouter()
-// const go = () => {
-//   router.push('/helmet')
-// }
+const router = useRouter()
+const go = () => {
+  router.push('/three')
+}
 </script>
 
 <template>
-  <div id="three">
-    <!-- <div absolute bottom-20 right-5>
+  <div id="helmet">
+    <div absolute bottom-20 right-5>
       <div btn h-10 @click="go">
-        <div i-jam-helmet text-xl />
+        <div i-jam-aperture text-xl />
         <span font-bold pl-2>
-          helmet
+          three
         </span>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>

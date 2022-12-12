@@ -225,7 +225,7 @@ animate() // 调用动画函数
 
 const router = useRouter()
 const go = () => {
-  router.push('/three')
+  router.push('/helmet')
 }
 </script>
 
@@ -233,9 +233,9 @@ const go = () => {
   <div id="three">
     <div absolute bottom-20 right-5>
       <div btn h-10 @click="go">
-        <div i-jam-aperture text-xl />
+        <div i-jam-helmet text-xl />
         <span font-bold pl-2>
-          three
+          helmet
         </span>
       </div>
     </div>
