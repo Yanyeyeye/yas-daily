@@ -3,39 +3,99 @@ import * as t from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 // import * as dat from 'dat.gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { DotScreenPass } from 'three/examples/jsm/postprocessing/DotScreenPass.js'
-import { GlitchPass } from 'three/examples/jsm/postprocessing/GlitchPass.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass'
-import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
+import { gsap } from 'gsap'
+
 /**
  * gui
  */
 // const gui = new dat.GUI({ closed: true, width: 400 }) // 设置关闭与宽度
 
 const scene = new t.Scene()
+
+const overlayGeometry = new t.PlaneGeometry(2, 2, 1, 1)
+const overlayMaterial = new t.ShaderMaterial(
+  {
+    transparent: true,
+    uniforms: {
+      uAlpha: {
+        value: 1,
+      },
+    },
+    vertexShader: `
+      void main(){
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+    uniform float uAlpha;
+      void main(){
+        gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
+      }
+    `,
+  },
+)
+const overlay = new t.Mesh(overlayGeometry, overlayMaterial)
+scene.add(overlay)
 /**
  * texture loader
  */
-const gltfLoader = new GLTFLoader()
-const cubeTextureLoader = new t.CubeTextureLoader()
-const textureLoader = new t.TextureLoader()
+// const textureLoader = new t.TextureLoader()
+// const displacementTexture = textureLoader.load(
+//   new URL('../assets/textures/displacementMap.png', import.meta.url).href)
+const loadingBar = ref<HTMLDivElement | null>(null)
+let sceneReady = false
+const loadingManager = new t.LoadingManager(
+  () => {
+    gsap.delayedCall(0.5, () => {
+      gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0 })
+      loadingBar.value!.classList.add('ended')
+      loadingBar.value!.style.transform = ''
+    })
+    window.setTimeout(() => {
+      sceneReady = true
+    }, 2000)
+  },
+  (itemUrl, itemsLoaded, itemsTotal) => {
+    const progressRatio = itemsLoaded / itemsTotal
+    loadingBar.value!.style.transform = `scaleX(${progressRatio})`
+  },
+)
+const gltfLoader = new GLTFLoader(loadingManager)
+const cubeTextureLoader = new t.CubeTextureLoader(loadingManager)
+
+/**
+ * Base
+ */
+// Debug
+const debugObject = {
+  envMapIntensity: 2.5,
+}
+
 /**
  * Update all materials
  */
 const updateAllMaterials = () => {
   scene.traverse((child) => {
     if (child instanceof t.Mesh && child.material instanceof t.MeshStandardMaterial) {
-      child.material.envMapIntensity = 2.5
+      // child.material.envMap = environmentMap
+      child.material.envMapIntensity = debugObject.envMapIntensity
       child.material.needsUpdate = true
       child.castShadow = true
       child.receiveShadow = true
     }
   })
 }
+
+/**
+ * Points of internet
+ * */
+const raycaster = new t.Raycaster()
+const point_0 = ref<HTMLDivElement | null>(null)
+
+const points = [{
+  position: new t.Vector3(1.55, 0.3, -0.6),
+  element: point_0,
+}]
 
 /**
  * Environment map
@@ -49,6 +109,8 @@ const environmentMap = cubeTextureLoader.load([
   new URL('../assets/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
 ])
 
+environmentMap.encoding = t.sRGBEncoding
+
 scene.background = environmentMap
 scene.environment = environmentMap
 
@@ -58,12 +120,10 @@ scene.environment = environmentMap
 gltfLoader.load(
   new URL('../assets/models/DamagedHelmet/glTF/DamagedHelmet.gltf', import.meta.url).href,
   (gltf) => {
-    // Model
-    gltf.scene.scale.set(2, 2, 2)
+    gltf.scene.scale.set(2.5, 2.5, 2.5)
     gltf.scene.rotation.y = Math.PI * 0.5
     scene.add(gltf.scene)
 
-    // Update materials
     updateAllMaterials()
   },
 )
@@ -73,8 +133,8 @@ gltfLoader.load(
  */
 const directionalLight = new t.DirectionalLight('#ffffff', 3)
 directionalLight.castShadow = true
-directionalLight.shadow.mapSize.set(1024, 1024)
 directionalLight.shadow.camera.far = 15
+directionalLight.shadow.mapSize.set(1024, 1024)
 directionalLight.shadow.normalBias = 0.05
 directionalLight.position.set(0.25, 3, -2.25)
 scene.add(directionalLight)
@@ -85,10 +145,8 @@ const SIZE = {
 }
 const PROPOTION = SIZE.width / SIZE.height
 
-const camera = new t.PerspectiveCamera(75, PROPOTION)
-camera.position.z = 5
-camera.position.y = 0
-camera.position.x = 7
+const camera = new t.PerspectiveCamera(75, PROPOTION, 0.1, 100)
+camera.position.set(4, 1, -4)
 
 const renderer = new t.WebGLRenderer({ antialias: true })
 renderer.shadowMap.enabled = true
@@ -103,84 +161,6 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // 设置自动检测大小
 WinResize(SIZE, camera, renderer, { yoffset: 130 })
 
-/**
- * Post processing
- */
-// Render target
-const renderTarget = new t.WebGLRenderTarget(
-  800,
-  600,
-  {
-    minFilter: t.LinearFilter,
-    magFilter: t.LinearFilter,
-    format: t.RGBAFormat,
-    encoding: t.sRGBEncoding,
-  },
-)
-
-const effectComposer = new EffectComposer(renderer, renderTarget)
-effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-effectComposer.setSize(SIZE.width, SIZE.height)
-
-const renderPass = new RenderPass(scene, camera)
-effectComposer.addPass(renderPass)
-
-const dotScreenPass = new DotScreenPass()
-dotScreenPass.enabled = false
-effectComposer.addPass(dotScreenPass)
-
-const glitchPass = new GlitchPass()
-glitchPass.enabled = false
-effectComposer.addPass(glitchPass)
-
-const rgbShiftPass = new ShaderPass(RGBShiftShader)
-rgbShiftPass.enabled = false
-effectComposer.addPass(rgbShiftPass)
-
-const unrealBloomPass = new UnrealBloomPass(new t.Vector2(SIZE.width, SIZE.height), 1.5, 0.4, 0.85)
-unrealBloomPass.enabled = false
-effectComposer.addPass(unrealBloomPass)
-
-const TintShader = {
-  uniforms: {
-    tDiffuse: { value: null },
-    uNormalMap: { value: null },
-  },
-  vertexShader: `
-    varying vec2 vUv;
-    void main()
-    {
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-
-        vUv = uv;
-    }`,
-  fragmentShader: `
-    uniform sampler2D tDiffuse;
-    uniform sampler2D uNormalMap;
-
-    varying vec2 vUv;
-
-    void main()
-    {
-      vec3 normalColor = texture2D(uNormalMap, vUv).xyz * 2.0 - 1.0;
-      vec2 newUv = vUv + normalColor.xy * 0.1;
-      vec4 color = texture2D(tDiffuse, newUv);
-
-      vec3 lightDirection = normalize(vec3(- 1.0, 1.0, 0.0));
-      float lightness = clamp(dot(normalColor, lightDirection), 0.0, 1.0);
-      color.rgb += lightness * 2.0;
-
-      gl_FragColor = color;
-    }`,
-}
-
-const tintPass = new ShaderPass(TintShader)
-tintPass.material.uniforms.uNormalMap.value = textureLoader.load(new URL('../assets/textures/interfaceNormalMap.png', import.meta.url).href)
-effectComposer.addPass(tintPass)
-
-const smaaPass = new SMAAPass(SIZE.width, SIZE.height)
-effectComposer.addPass(smaaPass)
-
 // 帧率显示器
 const stats = statsPanel('three', 0, { top: 53 })
 onMounted(() => {
@@ -190,16 +170,41 @@ onMounted(() => {
 // 鼠标操作
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
-
 // const clock = new t.Clock() // 从初始化时就开始运行
 // animate()
 const animate = () => {
   stats.begin() // 帧率显示器
   controls.update() // 鼠标控制
   // const elapsedTime = clock.getElapsedTime() // 得到过去的时间，返回的是秒
+  // console.log(points)
   // TODO
+  if (sceneReady) {
+    for (const point of points) {
+    // console.log(points)
+      const screenPosition = point.position.clone()
+      screenPosition.project(camera)
+
+      raycaster.setFromCamera(screenPosition, camera)
+      const intersects = raycaster.intersectObjects(scene.children, true)
+
+      if (intersects.length === 0) {
+        point.element.value!.classList.add('visible')
+      }
+      else {
+        const intersectionDistance = intersects[0].distance
+        const pointDistance = point.position.distanceTo(camera.position)
+        if (intersectionDistance < pointDistance)
+          point.element.value!.classList.remove('visible')
+        else
+          point.element.value!.classList.add('visible')
+      }
+
+      const translateX = screenPosition.x * SIZE.width * 0.5
+      const translateY = screenPosition.y * SIZE.width * 0.5
+      point.element.value!.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`
+    }
+  }
   renderer.render(scene, camera) // 重新渲染渲染器也就是让渲染器拍照记录物体新的位置
-  effectComposer.render()
   stats.end()// 帧率显示器
   requestAnimationFrame(animate)// 调用动画渲染60帧/s的显示屏
 }
@@ -222,4 +227,85 @@ animate() // 调用动画函数
       </div>
     </div> -->
   </div>
+  <div
+    ref="loadingBar" class="loading-bar"
+  />
+  <div ref="point_0" class="point">
+    <div ref="label" class="label">
+      1
+    </div>
+    <div ref="text" class="text">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.loading-bar {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  transform: scaleX(0.3);
+  transform-origin: top left;
+  transition: transform 1.5s ease-in-out;
+}
+.ended {
+    transform: scaleX(0);
+    transform-origin: 100% 0;
+    transition: transform 1.5s ease-in-out;
+}
+.point {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.point .label {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #00000077;
+  border: 1px solid #ffffff77;
+  color: #ffffff;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 100;
+  font-size: 14px;
+  cursor: help;
+  transform: scale(0, 0);
+  transition: transform 0.3s;
+}
+
+.point .text {
+  position: absolute;
+  top: 30px;
+  left: -120px;
+  width: 200px;
+  padding: 20px;
+  border-radius: 4px;
+  background: #00000077;
+  border: 1px solid #ffffff77;
+  color: #ffffff;
+  line-height: 1.3em;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.point:hover .text {
+  opacity: 1;
+}
+
+.point.visible .label {
+  transform: scale(1, 1);
+}
+</style>
