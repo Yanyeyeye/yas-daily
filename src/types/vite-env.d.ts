@@ -7,3 +7,10 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+import { BufferGeometry } from 'three'
+declare module 'three' {
+  export interface BufferGeometry {
+    tween?: any
+  }
+}

@@ -41,12 +41,12 @@ const updateAllMaterials = () => {
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  new URL('../assets/textures/environmentMaps/5/px.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/nx.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/py.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/ny.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/pz.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/px.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/nx.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/py.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/ny.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/pz.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
 ])
 
 scene.background = environmentMap
@@ -56,7 +56,7 @@ scene.environment = environmentMap
  * Models
  */
 gltfLoader.load(
-  new URL('../assets/models/DamagedHelmet/glTF/DamagedHelmet.gltf', import.meta.url).href,
+  new URL('/models/DamagedHelmet/glTF/DamagedHelmet.gltf', import.meta.url).href,
   (gltf) => {
     // Model
     gltf.scene.scale.set(2, 2, 2)
@@ -175,7 +175,7 @@ const TintShader = {
 }
 
 const tintPass = new ShaderPass(TintShader)
-tintPass.material.uniforms.uNormalMap.value = textureLoader.load(new URL('../assets/textures/interfaceNormalMap.png', import.meta.url).href)
+tintPass.material.uniforms.uNormalMap.value = textureLoader.load(new URL('/textures/interfaceNormalMap.png', import.meta.url).href)
 effectComposer.addPass(tintPass)
 
 const smaaPass = new SMAAPass(SIZE.width, SIZE.height)

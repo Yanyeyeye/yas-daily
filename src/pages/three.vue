@@ -101,12 +101,12 @@ const points = [{
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  new URL('../assets/textures/environmentMaps/5/px.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/nx.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/py.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/ny.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/pz.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/px.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/nx.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/py.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/ny.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/pz.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
 ])
 
 environmentMap.encoding = t.sRGBEncoding
@@ -118,7 +118,7 @@ scene.environment = environmentMap
  * Models
  */
 gltfLoader.load(
-  new URL('../assets/models/DamagedHelmet/glTF/DamagedHelmet.gltf', import.meta.url).href,
+  new URL('/models/DamagedHelmet/glTF/DamagedHelmet.gltf', import.meta.url).href,
   (gltf) => {
     gltf.scene.scale.set(2.5, 2.5, 2.5)
     gltf.scene.rotation.y = Math.PI * 0.5
@@ -210,22 +210,22 @@ const animate = () => {
 }
 animate() // 调用动画函数
 
-// const router = useRouter()
-// const go = () => {
-//   router.push('/helmet')
-// }
+const router = useRouter()
+const go = () => {
+  router.push('/point')
+}
 </script>
 
 <template>
   <div id="three">
-    <!-- <div absolute bottom-20 right-5>
+    <div absolute bottom-20 right-5>
       <div btn h-10 @click="go">
         <div i-jam-helmet text-xl />
         <span font-bold pl-2>
-          helmet
+          point
         </span>
       </div>
-    </div> -->
+    </div>
   </div>
   <div
     ref="loadingBar" class="loading-bar"

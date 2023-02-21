@@ -29,6 +29,7 @@
   },
   "exclude": [
     "dist",
+    "draco",
     "node_modules"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]

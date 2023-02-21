@@ -34,12 +34,12 @@ const updateAllMaterials = () => {
  * Environment map
  */
 const environmentMap = cubeTextureLoader.load([
-  new URL('../assets/textures/environmentMaps/5/px.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/nx.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/py.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/ny.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/pz.jpg', import.meta.url).href,
-  new URL('../assets/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/px.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/nx.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/py.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/ny.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/pz.jpg', import.meta.url).href,
+  new URL('/textures/environmentMaps/5/nz.jpg', import.meta.url).href,
 ])
 environmentMap.encoding = t.sRGBEncoding
 
@@ -51,10 +51,10 @@ scene.environment = environmentMap
  */
 
 // Textures
-const mapTexture = textLoader.load(new URL('../assets/models/LeePerrySmith/color.jpg', import.meta.url).href)
+const mapTexture = textLoader.load(new URL('/models/LeePerrySmith/color.jpg', import.meta.url).href)
 mapTexture.encoding = t.sRGBEncoding
 
-const normalTexture = textLoader.load(new URL('../assets/models/LeePerrySmith/normal.jpg', import.meta.url).href)
+const normalTexture = textLoader.load(new URL('/models/LeePerrySmith/normal.jpg', import.meta.url).href)
 
 // Material
 const material = new t.MeshStandardMaterial({
@@ -141,7 +141,7 @@ depthMaterial.onBeforeCompile = (shader) => {
  * Models
  */
 gltfLoader.load(
-  new URL('../assets/models/LeePerrySmith/LeePerrySmith.glb', import.meta.url).href,
+  new URL('/models/LeePerrySmith/LeePerrySmith.glb', import.meta.url).href,
   (gltf) => {
     // Model
     const mesh = gltf.scene.children[0] as t.Mesh
